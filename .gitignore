@@ -1,0 +1,56 @@
+# Build artifacts
+*.o
+*.so
+*.a
+*.obj
+*.lib
+*.pdb
+*.moc
+*.ui
+
+# IDE specific files
+# Qt Creator
+*.designer
+*.pro.user
+
+# CLion
+cmake-build-debug/
+cmake-build-release/
+.idea/
+
+# Test coverage reports
+coverage/
+
+# Generated documentation (if applicable)
+doc/
+
+# Third-party dependencies (if managed separately)
+# Adjust this section if you use a package manager like vcpkg or Conan
+/thirdparty/
+
+# Temporary files
+*~
+#*#
+
+# OS specific temporary/cache files
+.DS_Store  # macOS
+Thumbs.db  # Windows
+
+# Editor temporary/backup files
+*.swp  # Vim
+*.swo  # Emacs
+
+# Platform-specific configuration files
+# Adjust or remove these based on your needs
+build/  # Generic build folder
+local.conf  # Qt Creator specific
+
+# Exclude any custom app settings or configurations
+# If you have a separate config file, add its name here
+app_config.ini
+
+# Logs
+*.log
+
+# Compiled resources (Qt specific)
+qrc_*.cpp
