@@ -18,6 +18,7 @@ static void declareQmlPageEnum()
 {
     qmlRegisterUncreatableMetaObject(PageLoader::staticMetaObject, "PageEnum", 1, 0, "PageEnum", "Error: only enums");
 }
+
 }
 
 class PageController : public QObject
@@ -37,7 +38,7 @@ public slots:
 signals:
     void goToPage(PageLoader::PageEnum page, bool slide = true);
     void goToStartPage();
-    void goToPageHome();
+    void openMenu();
 
 };
 

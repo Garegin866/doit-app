@@ -2,6 +2,7 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 
+#include "src/TaskListModel/tasklistmodel.h"
 #include "src/doitapplication.h"
 #include "src/pagecontroller.h"
 
@@ -23,6 +24,9 @@ int main(int argc, char *argv[])
 
     PageController *pageController = new PageController();
     engine.rootContext()->setContextProperty("PageController", pageController);
+
+    TaskListModel *taskListModel = new TaskListModel();
+    engine.rootContext()->setContextProperty("TaskListModel", taskListModel);
 
     engine.load(url);
 

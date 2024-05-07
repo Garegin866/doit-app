@@ -13,5 +13,12 @@
         <file>Controls/PageType.qml</file>
         <file>Components/FocusItem.qml</file>
         <file>Pages/PageHome.qml</file>
+        <file>Config/TextConfig.qml</file>
+        <file>Drawers/MenuDrawer.qml</file>
+        <file>Components/TaskItem.qml</file>
+        <file>Controls/CheckBoxType.qml</file>
+        <file>Controls/TextTypes/CaptionTextType.qml</file>
+        <file>Controls/TextTypes/ListItemTitleType.qml</file>
+        <file>Popups/TaskItemPopup.qml</file>
     </qresource>
 </RCC>

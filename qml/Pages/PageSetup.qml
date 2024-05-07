@@ -33,9 +33,9 @@ PageType {
                 horizontalAlignment: Text.AlignHCenter
                 color: CC.colorText
                 font {
-                    pixelSize: 36
+                    pixelSize: 30
                     bold: true
-                    family: "Roboto"
+                    family: TC.fontFamily
                 }
             }
 
@@ -63,7 +63,7 @@ PageType {
 
             KeyNavigation.tab: focusItem
             clickedFunc: function () {
-                PageController.goToPage(PageEnum.PageStart)
+                PageController.goToPage(PageEnum.PageHome)
             }
         }
     }

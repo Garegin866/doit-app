@@ -66,7 +66,7 @@ PageType {
                         font {
                             pixelSize: 36
                             bold: true
-                            family: "Roboto"
+                            family: TC.fontFamily
                         }
                     }
 
@@ -76,9 +76,12 @@ PageType {
                         wrapMode: Text.WordWrap
                         horizontalAlignment: Text.AlignHCenter
                         color: CC.colorTextSecondary
-                        font.pixelSize: 18
-                        font.weight: 400
-                        font.family: "Roboto"
+
+                        font {
+                            family: TC.fontFamily
+                            weight: 400
+                            pixelSize: 18
+                        }
                     }
                 }
                 ColumnLayout {
@@ -100,7 +103,7 @@ PageType {
                         font {
                             pixelSize: 36
                             bold: true
-                            family: "Roboto"
+                            family: TC.fontFamily
                         }
                     }
 
@@ -110,13 +113,15 @@ PageType {
                         wrapMode: Text.WordWrap
                         horizontalAlignment: Text.AlignHCenter
                         color: CC.colorTextSecondary
-                        font.pixelSize: 18
-                        font.weight: 400
-                        font.family: "Roboto"
+
+                        font {
+                            family: TC.fontFamily
+                            weight: 400
+                            pixelSize: 18
+                        }
                     }
                 }
                 ColumnLayout {
-
                     Image {
                         Layout.maximumWidth: implicitHeight * 0.6
                         Layout.preferredHeight: 250
@@ -134,7 +139,7 @@ PageType {
                         font {
                             pixelSize: 36
                             bold: true
-                            family: "Roboto"
+                            family: TC.fontFamily
                         }
                     }
 
@@ -144,12 +149,14 @@ PageType {
                         wrapMode: Text.WordWrap
                         horizontalAlignment: Text.AlignHCenter
                         color: CC.colorTextSecondary
-                        font.pixelSize: 18
-                        font.weight: 400
-                        font.family: "Roboto"
+
+                        font {
+                            family: TC.fontFamily
+                            weight: 400
+                            pixelSize: 18
+                        }
                     }
                 }
-
             }
 
             PageIndicator {

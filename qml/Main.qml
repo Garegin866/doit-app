@@ -4,6 +4,7 @@ import QtQuick.Controls
 
 import "Config"
 import "Controls"
+import "Drawers"
 
 // import PageEnum 1.0
 
@@ -53,6 +54,10 @@ Window  {
         }
 
     }
+
+    // MenuDrawer {
+
+    // }
 
     Connections {
         target: PageController

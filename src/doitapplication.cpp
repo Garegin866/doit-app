@@ -21,4 +21,6 @@ void DoItApplication::loadFonts() {
 
     QFontDatabase::addApplicationFont(":/fonts/Roboto/Roboto-Regular.ttf");
     QFontDatabase::addApplicationFont(":/fonts/Roboto/Roboto-Bold.ttf");
+    QFontDatabase::addApplicationFont(":/fonts/Poppins/Poppins-Regular.ttf");
+    QFontDatabase::addApplicationFont(":/fonts/Poppins/Poppins-Bold.ttf");
 }

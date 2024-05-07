@@ -27,5 +27,7 @@ Item {
     // property string colorButtonFocus: "#000000"
     // property string colorButtonRipple: "#000000"
 
+    property string colorTaskItemBackground: "#2F3142"
+
 
 }

@@ -3,21 +3,16 @@ import QtQuick
 import "../../Config"
 
 Text {
-    lineHeight: 24
+    lineHeight: 21.6
     lineHeightMode: Text.FixedHeight
 
     color: CC.colorText
 
     font {
         family: TC.fontFamily
-        weight: 800
+        weight: 400
         pixelSize: 16
     }
 
-    leftPadding: 16
-    rightPadding: 16
-    topPadding: 8
-    bottomPadding: 8
-
-    wrapMode: Text.WordWrap
+    wrapMode: Text.Wrap
 }

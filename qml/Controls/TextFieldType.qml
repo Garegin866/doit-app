@@ -3,6 +3,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 import "TextTypes"
+
 import "../Config"
 
 Item {
@@ -73,9 +74,11 @@ Item {
                         selectionColor:  CC.colorSecondary
                         selectedTextColor: "#D7D8DB"
 
-                        font.pixelSize: 16
-                        font.weight: 400
-                        font.family: "Roboto"
+                        font {
+                            family: TC.fontFamily
+                            pixelSize: 16
+                            weight: 400
+                        }
 
                         height: 24
                         Layout.fillWidth: true
@@ -120,9 +123,11 @@ Item {
             // lineHeight: 20 + LanguageModel.getLineHeightAppend()
             lineHeightMode: Text.FixedHeight
 
-            font.pixelSize: 14
-            font.weight: 400
-            font.family: "Roboto"
+            font {
+                family: TC.fontFamily
+                pixelSize: 14
+                weight: 400
+            }
 
             wrapMode: Text.WordWrap
 

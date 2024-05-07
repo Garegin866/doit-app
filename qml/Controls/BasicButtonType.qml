@@ -23,7 +23,7 @@ Button {
 
     property string imageSource
     property string rightImageSource
-    property string leftImageColor: textColor
+    property string imageColor: textColor
 
     property var clickedFunc
 
@@ -89,7 +89,7 @@ Button {
                 layer {
                     enabled: true
                     effect: ColorOverlay {
-                        color: leftImageColor
+                        color: imageColor
                     }
                 }
             }
