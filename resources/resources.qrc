@@ -1,0 +1,18 @@
+<RCC>
+    <qresource prefix="/">
+        <file>fonts/Roboto/Roboto-Regular.ttf</file>
+        <file>images/arrow_right.svg</file>
+        <file>images/logo.svg</file>
+        <file>fonts/Roboto/Roboto-Bold.ttf</file>
+        <file>images/banner1.png</file>
+        <file>images/banner2.png</file>
+        <file>images/banner3.png</file>
+        <file>images/menu.svg</file>
+        <file>images/notification.svg</file>
+        <file>images/notificatoin-default.svg</file>
+        <file>fonts/Poppins/Poppins-Bold.ttf</file>
+        <file>fonts/Poppins/Poppins-Regular.ttf</file>
+        <file>images/plus.svg</file>
+        <file>images/check.png</file>
+    </qresource>
+</RCC>

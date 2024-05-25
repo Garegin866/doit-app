@@ -1,0 +1,25 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Main.qml</file>
+        <file>Config/GlobalConfig.qml</file>
+        <file>Config/qmldir</file>
+        <file>Pages/PageStart.qml</file>
+        <file>Controls/StackViewType.qml</file>
+        <file>Controls/BasicButtonType.qml</file>
+        <file>Controls/TextTypes/ButtonTextType.qml</file>
+        <file>Config/ColorConfig.qml</file>
+        <file>Pages/PageSetup.qml</file>
+        <file>Controls/TextFieldType.qml</file>
+        <file>Controls/PageType.qml</file>
+        <file>Components/FocusItem.qml</file>
+        <file>Pages/PageHome.qml</file>
+        <file>Config/TextConfig.qml</file>
+        <file>Drawers/MenuDrawer.qml</file>
+        <file>Components/TaskItem.qml</file>
+        <file>Controls/CheckBoxType.qml</file>
+        <file>Controls/TextTypes/CaptionTextType.qml</file>
+        <file>Controls/TextTypes/ListItemTitleType.qml</file>
+        <file>Popups/TaskItemPopup.qml</file>
+        <file>Controls/DrawerType.qml</file>
+    </qresource>
+</RCC>

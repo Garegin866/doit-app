@@ -7,6 +7,7 @@
 *.pdb
 *.moc
 *.ui
+*.user
 
 # IDE specific files
 # Qt Creator
@@ -33,17 +34,16 @@ doc/
 #*#
 
 # OS specific temporary/cache files
-.DS_Store  # macOS
-Thumbs.db  # Windows
+.DS_Store
+Thumbs.db
 
 # Editor temporary/backup files
-*.swp  # Vim
-*.swo  # Emacs
+*.swp
+*.swo
 
 # Platform-specific configuration files
-# Adjust or remove these based on your needs
-build/  # Generic build folder
-local.conf  # Qt Creator specific
+build/
+local.conf
 
 # Exclude any custom app settings or configurations
 # If you have a separate config file, add its name here

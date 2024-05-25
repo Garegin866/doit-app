@@ -1,0 +1,3 @@
+singleton GC 1.0 GlobalConfig.qml
+singleton CC 1.0 ColorConfig.qml
+singleton TC 1.0 TextConfig.qml
