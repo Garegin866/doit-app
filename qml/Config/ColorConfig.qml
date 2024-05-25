@@ -28,6 +28,6 @@ Item {
     // property string colorButtonRipple: "#000000"
 
     property string colorTaskItemBackground: "#2F3142"
-
+    property string colorTaskItemDeleteBackground: "tomato"
 
 }

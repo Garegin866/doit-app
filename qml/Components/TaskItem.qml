@@ -6,7 +6,7 @@ import "../Config"
 import "../Controls"
 import "../Popups"
 
-ItemDelegate {
+SwipeDelegate {
     id: root
 
     // Required properties from parent ListView
@@ -16,13 +16,13 @@ ItemDelegate {
     required property string description
     required property bool completed
 
-    // swipe.transition: Transition {
-    //     SmoothedAnimation { velocity: 3; easing.type: Easing.InOutCubic }
-    // }
+    swipe.transition: Transition {
+        SmoothedAnimation { velocity: 3; easing.type: Easing.InOutCubic }
+    }
 
     height: background.height
 
-    // ListView.onRemove: removeAnimation
+    ListView.onRemove: removeAnimation
 
     background: Rectangle {
         id: background
@@ -34,65 +34,50 @@ ItemDelegate {
 
         CheckBoxType {
             id: checkBox
-            // Layout.alignment: Qt.AlignLeft
             text: taskName
             checked: completed
-            // Layout.fillWidth: true
             width: parent.width
             descriptionText: description
 
         }
-
-        // RowLayout {
-        //     width: parent.width
-        //     spacing: 0
-
-        //     CheckBoxType {
-        //         id: checkBox
-        //         Layout.alignment: Qt.AlignLeft
-        //         text: taskName
-        //         Layout.fillWidth: true
-        //         descriptionText: "#Sport"
-
-        //     }
-        // }
     }
 
-    // swipe.right: Label {
-    //     id: deleteLabel
-    //     text: qsTr("Delete")
-    //     color: "white"
-    //     verticalAlignment: Label.AlignVCenter
-    //     padding: 12
-    //     height: parent.height
-    //     anchors.right: parent.right
+    swipe.right: Label {
+        id: deleteLabel
+        text: qsTr("Delete")
+        color: CC.colorText
+        verticalAlignment: Label.AlignVCenter
+        padding: 12
+        height: parent.height
+        anchors.right: parent.right
 
-    //     SwipeDelegate.onClicked: listView.model.remove(index)
+        SwipeDelegate.onClicked: listView.model.removeTask(index)
 
-    //     background: Rectangle {
-    //         color: deleteLabel.SwipeDelegate.pressed ? Qt.darker("tomato", 1.1) : "tomato"
-    //     }
-    // }
+        background: Rectangle {
+            radius: 10
+            color: deleteLabel.SwipeDelegate.pressed ? Qt.darker(CC.colorTaskItemDeleteBackground, 1.1) : CC.colorTaskItemDeleteBackground
+        }
+    }
 
-    // SequentialAnimation {
-    //     id: removeAnimation
-    //     PropertyAction {
-    //         target: root
-    //         property: "ListView.delayRemove"
-    //         value: true
-    //     }
-    //     NumberAnimation {
-    //         target: root
-    //         property: "height"
-    //         to: 0
-    //         easing.type: Easing.InOutQuad
-    //     }
-    //     PropertyAction {
-    //         target: root
-    //         property: "ListView.delayRemove"
-    //         value: false
-    //     }
-    // }
+    SequentialAnimation {
+        id: removeAnimation
+        PropertyAction {
+            target: root
+            property: "ListView.delayRemove"
+            value: true
+        }
+        NumberAnimation {
+            target: root
+            property: "height"
+            to: 0
+            easing.type: Easing.InOutQuad
+        }
+        PropertyAction {
+            target: root
+            property: "ListView.delayRemove"
+            value: false
+        }
+    }
 
     TapHandler {
         onTapped: {
@@ -104,14 +89,6 @@ ItemDelegate {
             taskItemPopup.open()
         }
     }
-
-    // MouseArea {
-    //     anchors.fill: parent
-    //     cursorShape: Qt.PointingHandCursor
-    //     onClicked: (mouse) => {
-    //                    checkBox.checked = !checkBox.checked
-    //     }
-    // }
 
     TaskItemPopup {
         id: taskItemPopup

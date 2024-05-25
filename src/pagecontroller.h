@@ -39,6 +39,7 @@ signals:
     void goToPage(PageLoader::PageEnum page, bool slide = true);
     void goToStartPage();
     void openMenu();
+    void activeFocusCurrentPage();
 
 };
 

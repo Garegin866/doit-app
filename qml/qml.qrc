@@ -20,5 +20,6 @@
         <file>Controls/TextTypes/CaptionTextType.qml</file>
         <file>Controls/TextTypes/ListItemTitleType.qml</file>
         <file>Popups/TaskItemPopup.qml</file>
+        <file>Controls/DrawerType.qml</file>
     </qresource>
 </RCC>

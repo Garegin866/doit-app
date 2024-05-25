@@ -17,6 +17,14 @@ Item {
         }
     }
 
+    onActiveFocusChanged: {
+        if (activeFocus) {
+            if (defaultActiveFocusItem) {
+                defaultActiveFocusItem.forceActiveFocus()
+            }
+        }
+    }
+
     // function lastItemTabClicked(focusItem) {
     //     if (GC.isMobile()) {
     //         return

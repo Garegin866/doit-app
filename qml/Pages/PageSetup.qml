@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Layouts
+import QtCore
 
 import "../Controls"
 import "../Config"
@@ -52,6 +53,10 @@ PageType {
             }
         }
 
+        Settings {
+            id: settings
+        }
+
         BasicButtonType {
             id: button
             text: qsTr("Continue")
@@ -63,6 +68,9 @@ PageType {
 
             KeyNavigation.tab: focusItem
             clickedFunc: function () {
+                // add name to Settings
+                settings.setValue("name", textField.textField.text)
+
                 PageController.goToPage(PageEnum.PageHome)
             }
         }

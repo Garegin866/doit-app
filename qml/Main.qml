@@ -1,15 +1,18 @@
 import QtQuick
 import QtQuick.Window
 import QtQuick.Controls
+import QtQuick.Layouts
+import QtCore
 
 import "Config"
 import "Controls"
 import "Drawers"
+import "Components"
 
-// import PageEnum 1.0
+import PageEnum 1.0
 
 Window  {
-    id: root
+    id: appWindow
     objectName: "mainWindow"
     visible: true
     width: GC.screenWidth
@@ -24,11 +27,15 @@ Window  {
 
     property real cornerMargin: 16
 
+    Settings {
+        id: settings
+    }
+
     StackViewType {
         id: rootStackView
 
-        width: root.width
-        height: root.height
+        width: appWindow.width
+        height: appWindow.height
         anchors {
             left: parent.left
             right: parent.right
@@ -40,8 +47,14 @@ Window  {
         focus: true
 
         Component.onCompleted: {
-            var pagePath = PageController.getInitialPage()
-            rootStackView.push(pagePath, { "objectName" : pagePath })
+            let userName = settings.value("name", "")
+
+            if (userName === "") {
+                var pagePath = PageController.getInitialPage()
+                rootStackView.push(pagePath, { "objectName" : pagePath })
+            } else {
+                PageController.goToPage(PageEnum.PageHome)
+            }
         }
 
         Keys.onEscapePressed: {
@@ -55,10 +68,6 @@ Window  {
 
     }
 
-    // MenuDrawer {
-
-    // }
-
     Connections {
         target: PageController
         function onGoToPage(page, slide) {
@@ -69,6 +78,9 @@ Window  {
             } else {
                 rootStackView.push(pagePath, { "objectName" : pagePath }, StackView.Immediate)
             }
+        }
+        function onActiveFocusCurrentPage() {
+            rootStackView.currentItem.forceActiveFocus()
         }
     }
 
