@@ -5,7 +5,7 @@
 
 class Task {
 public:
-    Task(const QString &name, const QString &description, bool completed = false);
+    Task(int uuid, const QString &name, const QString &description, bool completed = false);
 
     QString name() const;
     void setName(const QString &name);

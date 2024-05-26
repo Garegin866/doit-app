@@ -1,17 +1,66 @@
 #include "tasklistmodel.h"
 
-TaskListModel::TaskListModel() {}
+TaskListModel::TaskListModel() {
+    if (!connectToDatabase()) {
+        qWarning() << "Failed to connect to database";
+        return; // Handle connection error
+    }
+
+    if (!createTasksTable()) {
+        qWarning() << "Failed to create tasks table";
+        return; // Handle table creation error
+    }
+
+    loadTasks();
+}
 
 void TaskListModel::addTask(const QString &name, const QString &description) {
+    QSqlQuery query(QSqlDatabase::database());
+    query.prepare("INSERT INTO tasks (name, description, completed) VALUES (:name, :description, :completed)");
+    query.bindValue(":name", name);
+    query.bindValue(":description", description);
+    query.bindValue(":completed", false);
+    query.exec();
+    if (query.lastError().isValid()) {
+        qWarning() << "Failed to add task:" << query.lastError().text();
+    }
+
+    int uid = query.lastInsertId().toInt();
     beginInsertRows(QModelIndex(), m_tasks.size(), m_tasks.size());
-    m_tasks.append(Task(name, description));
+    m_tasks.append(Task(uid, name, description));
     endInsertRows();
+}
+
+void TaskListModel::setTaskCompleted(int index, bool completed) {
+    auto &task = m_tasks[index];
+    task.setCompleted(completed);
+
+    QSqlQuery query(QSqlDatabase::database());
+    query.prepare("UPDATE tasks SET completed = :completed WHERE uid = :uid");
+    query.bindValue(":completed", completed);
+    query.bindValue(":uid", task.uid());
+    query.exec();
+    if (query.lastError().isValid()) {
+        qWarning() << "Failed to update task:" << query.lastError().text();
+    }
+
+    emit dataChanged(this->index(index), this->index(index));
 }
 
 void TaskListModel::removeTask(int index) {
     beginRemoveRows(QModelIndex(), index, index);
-    m_tasks.removeAt(index);
+    auto task = m_tasks.takeAt(index);
     endRemoveRows();
+
+    QSqlQuery query(QSqlDatabase::database());
+    query.prepare("DELETE FROM tasks WHERE uid = :uid");
+    query.bindValue(":uid", task.uid());
+    query.exec();
+    if (query.lastError().isValid()) {
+        qWarning() << "Failed to remove task:" << query.lastError().text();
+    } else {
+        qInfo() << "Removed task at index" << task.uid();
+    }
 }
 
 
@@ -19,6 +68,12 @@ void TaskListModel::clearTasks() {
     beginRemoveRows(QModelIndex(), 0, m_tasks.size());
     m_tasks.clear();
     endRemoveRows();
+
+    QSqlQuery query(QSqlDatabase::database());
+    query.exec("DELETE FROM tasks");
+    if (query.lastError().isValid()) {
+        qWarning() << "Failed to clear tasks:" << query.lastError().text();
+    }
 }
 
 int TaskListModel::rowCount(const QModelIndex &parent) const {
@@ -55,88 +110,73 @@ QHash<int, QByteArray> TaskListModel::roleNames() const {
     return roles;
 }
 
-// TaskListModel::TaskListModel(const QString& databaseName) : m_databaseName(databaseName) {}
+void TaskListModel::loadTasks() {
+    if (!connectToDatabase()) {
+        qWarning() << "Failed to connect to database";
+        return; // Handle connection error
+    }
 
-// bool TaskListModel::openDatabase() {
-//     m_database = QSqlDatabase::addDatabase("QSQLITE");
-//     m_database.setDatabaseName(m_databaseName);
-//     if (!m_database.open()) {
-//         qWarning() << "Failed to open database:" << m_database.lastError().text();
-//         return false;
-//     }
-//     return createTableIfNotExists();
-// }
+    QSqlQuery query(QSqlDatabase::database());
+    query.exec("SELECT * FROM tasks");
 
-// bool TaskListModel::closeDatabase() {
-//     if (m_database.isOpen()) {
-//         m_database.close();
-//     }
-//     return true;
-// }
+    if (query.lastError().isValid()) {
+        qWarning() << "Failed to load tasks:" << query.lastError().text();
+        return;
+    }
 
-// bool TaskListModel::createTableIfNotExists() {
-//     QSqlQuery query(m_database);
-//     query.exec("CREATE TABLE IF NOT EXISTS tasks (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, description TEXT, completed BOOLEAN)");
-//     return !query.lastError().isValid();
-// }
+    beginInsertRows(QModelIndex(), m_tasks.size(), m_tasks.size());
+    while (query.next()) {
+        int uid = query.value("uid").toInt();
+        QString name = query.value("name").toString();
+        QString description = query.value("description").toString();
+        bool completed = query.value("completed").toBool();
+        m_tasks.append(Task(uid, name, description, completed));
+    }
+    endInsertRows();
+}
 
-// bool TaskListModel::saveTaskToDatabase(const Task& task) {
-//     QSqlQuery query(m_database);
-//     query.prepare("INSERT INTO tasks (name, description, completed) VALUES (:name, :description, :completed)");
-//     query.bindValue(":name", task.name());
-//     query.bindValue(":description", task.description());
-//     query.bindValue(":completed", task.completed());
-//     return query.exec();
-// }
+bool TaskListModel::connectToDatabase() {
+    if (QSqlDatabase::database().isValid()) {
+        return true;
+    }
+    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
+    db.setDatabaseName("tasks.db"); // Adjust filename as needed
 
-// QList<Task> TaskListModel::loadTasksFromDatabase() {
-//     QList<Task> tasks;
-//     QSqlQuery query(m_database);
-//     query.exec("SELECT name, description, completed FROM tasks");
-//     while (query.next()) {
-//         QString name = query.value("name").toString();
-//         QString description = query.value("description").toString();
-//         bool completed = query.value("completed").toBool();
-//         tasks.append(Task(name, description, completed));
-//     }
-//     return tasks;
-// }
+    if (!db.open()) {
+        qWarning() << "Failed to connect to database:" << db.lastError().text();
+        return false;
+    }
 
-// void TaskListModel::addTask(const QString &name, const QString &description) {
-//     // Add task to internal list
-//     beginInsertRows(QModelIndex(), m_tasks.size(), m_tasks.size());
-//     m_tasks.append(Task(name, description));
-//     endInsertRows();
+    qInfo() << "Connected to database" << db.databaseName();
+    return true;
+}
 
-//     // Save task to database (if database is open)
-//     if (m_database.isOpen()) {
-//         saveTaskToDatabase(m_tasks.last());
-//     }
-// }
+bool TaskListModel::createTasksTable() {
+    if (!QSqlDatabase::database().isOpen()) {
+        qWarning() << "Database is not open";
+        return false;
+    }
 
-// void TaskListModel::clearTasks() {
-//     // Clear internal list
-//     beginRemoveRows(QModelIndex(), 0, m_tasks.size());
-//     m_tasks.clear();
-//     endRemoveRows();
+    // check if table already exists
+    QSqlQuery checkQuery(QSqlDatabase::database());
+    checkQuery.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name='tasks'");
+    checkQuery.exec();
+    if (checkQuery.next()) {
+        qInfo() << "Table already exists";
+        return true;
+    }
 
-//     // Clear tasks from database (if database is open)
-//     if (m_database.isOpen()) {
-//         QSqlQuery query(m_database);
-//         query.exec("DELETE FROM tasks");
-//     }
-// }
+    QSqlQuery query(QSqlDatabase::database());
+    query.exec("CREATE TABLE IF NOT EXISTS tasks ("
+               "uid INTEGER PRIMARY KEY AUTOINCREMENT, "
+               "name TEXT, "
+               "description TEXT, "
+               "completed BOOLEAN)");
 
+    if (query.lastError().isValid()) {
+        qWarning() << "Failed to create tasks table:" << query.lastError().text();
+        return false;
+    }
 
-// int TaskListModel::rowCount(const QModelIndex &parent) const {
-//     Q_UNUSED(parent);
-//     return m_tasks.size();
-// }
-
-// QVariant TaskListModel::data(const QModelIndex &index, int role) const {
-//     // ... Same logic as before for retrieving data from internal list ...
-// }
-
-// QHash<int, QByteArray> TaskListModel::roleNames() const {
-//     // ... Same logic as before for defining roles ...
-// }
+    return true;
+}

@@ -1,7 +1,7 @@
 #include "task.h"
 
-Task::Task(const QString &name, const QString &description, bool completed)
-    : m_uid(8), m_taskName(name), m_description(description), m_completed(completed) {
+Task::Task(int uuid, const QString &name, const QString &description, bool completed)
+    : m_uid(uuid), m_taskName(name), m_description(description), m_completed(completed) {
 
 }
 

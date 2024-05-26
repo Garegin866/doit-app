@@ -38,7 +38,6 @@ SwipeDelegate {
             checked: completed
             width: parent.width
             descriptionText: description
-
         }
     }
 
@@ -81,13 +80,12 @@ SwipeDelegate {
 
     TapHandler {
         onTapped: {
-            checkBox.checked = !checkBox.checked
-
+            listView.model.setTaskCompleted(index, !completed)
         }
 
-        onLongPressed: {
-            taskItemPopup.open()
-        }
+        // onLongPressed: {
+        //     taskItemPopup.open()
+        // }
     }
 
     TaskItemPopup {
