@@ -4,6 +4,10 @@
 #include "src/TaskListModel/task.h"
 #include <QAbstractListModel>
 
+#include <QSqlDatabase>
+#include <QSqlQuery>
+#include <QSqlError>
+
 class TaskListModel : public QAbstractListModel {
     Q_OBJECT
 public:
@@ -17,6 +21,7 @@ public:
 
 public slots:
     void addTask(const QString &name, const QString &description);
+    void setTaskCompleted(int index, bool completed);
     void removeTask(int index);
     void clearTasks();
 
@@ -28,48 +33,11 @@ public:
 
 private:
     QList<Task> m_tasks;
+
+private:
+    void loadTasks();
+
+    bool connectToDatabase();
+    bool createTasksTable();
 };
-
-// #include "src/TaskListModel/task.h"
-// #include <QAbstractListModel>
-// #include <QSqlDatabase>
-// #include <QSqlQuery>
-// #include <QSqlError>
-
-// class TaskListModel : public QAbstractListModel {
-//     Q_OBJECT
-
-// public:
-//     enum Roles {
-//         UID = Qt::UserRole + 1,
-//         TaskName,
-//         Description,
-//         Completed
-//     };
-
-//     // explicit TaskListModel(const QString& databaseName = "tasks.db");
-
-// public slots:
-//     void addTask(const QString &name, const QString &description);
-//     void clearTasks();
-//     bool openDatabase();
-//     bool closeDatabase();
-
-//     // QAbstractItemModel interface
-// public:
-//     int rowCount(const QModelIndex &parent) const override;
-//     QVariant data(const QModelIndex &index, int role) const override;
-//     QHash<int, QByteArray> roleNames() const override;
-
-// private:
-//     QList<Task> m_tasks;
-//     QString m_databaseName;
-//     QSqlDatabase m_database;
-
-//     // Helper functions for database operations
-//     bool createTableIfNotExists();
-//     bool saveTaskToDatabase(const Task& task);
-//     QList<Task> loadTasksFromDatabase();
-// };
-
 #endif // TASKLISTMODEL_H
